@@ -52,9 +52,26 @@ func GetUserController(c echo.Context) error {
 }
 
 // // delete user by id
-// func DeleteUserController(c echo.Context) error {
-// 	// your solution here
-// }
+func DeleteUserController(c echo.Context) error {
+	// your solution here
+	idParam := c.Param("id")
+	id, _ := strconv.Atoi(idParam)
+	var x int
+
+	for k, v := range users {
+		if v.Id == id {
+			x = k
+		}
+	}
+	users = removearr(users, x)
+	return c.JSON(http.StatusOK, map[string]any{
+		"status": "Delete user success",
+		"user":   users,
+	})
+}
+func removearr(x []User, y int) []User {
+	return append(x[:y], x[y+1:]...)
+}
 
 // update user by id
 func UpdateUserController(c echo.Context) error {
